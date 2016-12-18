@@ -1,2 +1,2 @@
 # Grid-Mapping
-test programs for grid object identification and mapping
+Test programs for grid object identification and mapping
