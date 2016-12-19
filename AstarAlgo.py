@@ -145,20 +145,40 @@ elif directions == 8:
     dy = [0, 1, 1, 1, 0, -1, -1, -1]
 
 # map matrix
-n = 30  # horizontal size
-m = 30  # vertical size
+n = 10  # horizontal size
+m = 10  # vertical size
 the_map = []
 row = [0] * n
 print row
 for i in range(m):
     the_map.append(list(row))
 
+'''
 # fillout the map matrix with a '+' pattern
-for x in range(n / 8, n * 7 / 8):
+for x in range(n / 8, n * 7 / 8):                                   # obstacle filling
     the_map[m / 2][x] = 1
 
 for y in range(m / 8, m * 7 / 8):
     the_map[y][n / 2] = 1
+'''
+
+the_map[1][0] = 1
+the_map[1][1] = 1
+the_map[1][2] = 1
+the_map[2][0] = 1
+the_map[2][2] = 1
+the_map[3][0] = 1
+the_map[4][0] = 1
+the_map[4][5] = 1
+the_map[5][4] = 1
+the_map[6][5] = 1
+the_map[7][5] = 1
+the_map[7][6] = 1
+the_map[7][7] = 1
+the_map[7][8] = 1
+the_map[8][8] = 1
+
+
 
 
 # randomly select start and finish locations from a list
@@ -171,7 +191,7 @@ sf.append((n / 2 - 1, 0, n / 2 + 1, m - 1))
 sf.append((n / 2 + 1, m - 1, n / 2 - 1, 0))
 sf.append((0, m / 2 - 1, n - 1, m / 2 + 1))
 sf.append((n - 1, m / 2 + 1, 0, m / 2 - 1))
-(xA, yA, xB, yB) = random.choice(sf)
+(xA, yA, xB, yB) = (5, 1, 7, 5)
 
 print 'Map Size (X,Y): ', n, m
 print 'Start: ', xA, yA
