@@ -1,11 +1,92 @@
-# A* Shortest Path Algorithm
-# http://en.wikipedia.org/wiki/A*
-# FB - 201012256
+import cv2
 from heapq import heappush, heappop  # for priority queue
 import math
 import time
 
 
+#variables declaration
+
+c = 1                           #counter variable
+b_object = []
+temp_object = []
+
+output_1 = []                  # first required output (list)
+output_2 = {}                  # second required ouput (dictionary)
+
+directions = 4  # number of possible directions to move on the map
+if directions == 4:
+    dx = [1, 0, -1, 0]
+    dy = [0, 1, 0, -1]
+elif directions == 8:
+    dx = [1, 1, 0, -1, -1, -1, 0, 1]
+    dy = [0, 1, 1, 1, 0, -1, -1, -1]
+
+# map matrix
+n = 10  # horizontal size
+m = 10  # vertical size
+the_map = []
+row = [0] * n
+for i in range(m):
+    the_map.append(list(row))
+
+
+
+# extract a list of colour, shape and area from the image for all objects and obstacles
+def check_task(img_task,gray_task,x):
+    counter = ''
+    img_extract_size = 60
+    img_extract_adjust = 0
+    check_value = []
+    str_temp = ""
+    for column in range(0, x):
+        for row in range(0, x):
+
+            i1 = column * img_extract_size + img_extract_adjust
+            i2 = (column + 1) * img_extract_size - img_extract_adjust
+            j1 = row * img_extract_size + img_extract_adjust
+            j2 = (row + 1) * img_extract_size - img_extract_adjust
+
+            img = img_task[i1:i2, j1:j2]
+            gray = gray_task[i1:i2, j1:j2]
+
+            color_value = img[30, 30]
+            if (color_value[0] < 10 and color_value[1] < 10 and color_value[2] > 240):
+                str_temp = ("red",)
+            elif (color_value[0] > 240 and color_value[1] < 10 and color_value[2] < 10):
+                str_temp = ("blue",)
+            elif (color_value[0] < 10 and color_value[1] > 240 and color_value[2] < 10):
+                str_temp = ("green",)
+            elif (color_value[0] < 10 and color_value[1] > 240 and color_value[2] > 240):
+                str_temp = ("yellow",)
+            elif (color_value[0] < 10 and color_value[1] < 10 and color_value[2] < 10):
+                str_temp = ("black",)
+
+            ret, thresh = cv2.threshold(gray, 160, 255, 1)
+            contours, h = cv2.findContours(thresh, 1, 2)
+
+            if len(contours) == 0:
+                str_temp = ("NoShape",)
+            else:
+                for cnt in contours:
+                    if counter == str(i1) + str(j1):
+                        break
+                    approx = cv2.approxPolyDP(cnt, 0.0107 * cv2.arcLength(cnt, True), True)
+                    if len(approx) == 3:
+                        str_temp += ("Triangle",)
+                    elif len(approx) == 4:
+                        str_temp += ("4-sided",)
+                    elif len(approx) > 10:
+                        str_temp += ("Circle",)
+                    cv2.imshow("win" + counter, thresh)
+                    counter = str(i1) + str(j1)
+                    str_temp +=(cv2.contourArea(cnt),)
+
+            check_value.append(str_temp)
+
+    return check_value
+
+
+#node creation
 class node:
     # current position
     xPos = 0
@@ -134,59 +215,24 @@ def pathFind(the_map, directions, dx, dy, xStart, yStart, xFinish, yFinish):
 
     return ''  # no route found
 
-
-# MAIN
-directions = 4  # number of possible directions to move on the map
-if directions == 4:
-    dx = [1, 0, -1, 0]
-    dy = [0, 1, 0, -1]
-elif directions == 8:
-    dx = [1, 1, 0, -1, -1, -1, 0, 1]
-    dy = [0, 1, 1, 1, 0, -1, -1, -1]
-
-# map matrix
-n = 10  # horizontal size
-m = 10  # vertical size
-the_map = []
-row = [0] * n
-# print row
-for i in range(m):
-    the_map.append(list(row))
-
-'''
-# fillout the map matrix with a '+' pattern
-for x in range(n / 8, n * 7 / 8):                                   # obstacle filling
-    the_map[m / 2][x] = 1
-
-for y in range(m / 8, m * 7 / 8):
-    the_map[y][n / 2] = 1
-'''
-
-'''
-# randomly select start and finish locations from a list
-sf = []
-sf.append((0, 0, n - 1, m - 1))
-sf.append((0, m - 1, n - 1, 0))
-sf.append((n / 2 - 1, m / 2 - 1, n / 2 + 1, m / 2 + 1))
-sf.append((n / 2 - 1, m / 2 + 1, n / 2 + 1, m / 2 - 1))
-sf.append((n / 2 - 1, 0, n / 2 + 1, m - 1))
-sf.append((n / 2 + 1, m - 1, n / 2 - 1, 0))
-sf.append((0, m / 2 - 1, n - 1, m / 2 + 1))
-sf.append((n - 1, m / 2 + 1, 0, m / 2 - 1))
-'''
-
-
-def find_path(xA, yA, xB, yB):
+#path finding function
+def find_path((xA, yA), temp):
     #(xA, yA, xB, yB) = (0, 0, 0, 0)
-
+    xB = temp[0][0]
+    yB = temp[0][1]
     print 'Map Size (X,Y): ', n, m
     print 'Start: ', xA, yA
     print 'Finish: ', xB, yB
     t = time.time()
     route = pathFind(the_map, directions, dx, dy, xA, yA, xB, yB)
     print 'Time to generate the route (s): ', time.time() - t
-    #print 'Route:'
+    print 'Route:', route
     print len(route)
+    route1 = xyz(xA, yA, route)
+
+    output_2[(xA, yA)].append(route1)
+    output_2[(xA, yA)].append(len(route1))
+    
 
     # mark the route on the map
     if len(route) > 0:
@@ -200,9 +246,9 @@ def find_path(xA, yA, xB, yB):
             the_map[y][x] = 3
         the_map[y][x] = 4
 
+
+
 # display the map with the route
-
-
 def printMap():
     print 'Map:'
     for y in range(m):
@@ -219,3 +265,100 @@ def printMap():
             elif xy == 4:
                 print 'F',  # finish
         print
+
+
+# extract all the obstacles' and objects' positions
+def first_out(board):
+    c = 1
+    for block in board:
+        if block != ('NoShape',):
+            x = c % 10
+            y = c / 10
+            output_1.append((x, y))
+
+            temp_object.append(block)
+            block += (c,)
+            b_object.append(block)
+        c += 1
+
+
+# present obstacles on map
+def do_obstacle(board, tmap):
+    c = 1
+    for block in board:
+        if block == ('black', '4-sided', 3136.0):
+            x = c % 10
+            y = c / 10
+            tmap[y][x] = 1
+        c += 1
+
+    return tmap
+
+
+# takes the b_object as input and
+# updates the required dictionary with keys only (starting positions)
+def do_path(board):
+    for block in board:
+        if block[0:2] != ('black', '4-sided',):
+            for block2 in board:
+                if block != block2 and block[0:3] == block2[0:3]:
+                    output_2[(block[3] % 10, block[3] / 10)] = [(block2[3] % 10, block2[3] / 10)]
+
+
+def xyz(xA,yA,route1):
+    path_temp = []
+    xA1 = xA
+    yA1 = yA
+    for i in route1:
+        if i == '0':                    # right
+            xA1 += 1
+        elif i == '1':                  # down
+            yA1 += 1
+        elif i == '2':                  # left
+            xA1 -= 1
+        elif i == '3':                  # up
+            yA1 -= 1
+        path_temp.append((xA1,yA1))
+
+    return path_temp
+
+
+# MAIN
+
+img_base_1 = cv2.imread('test_image3.jpg')
+gray_base_1 = cv2.imread('test_image3.jpg', 0)
+
+board_values = check_task(img_base_1, gray_base_1, 10)
+
+first_out(board_values)                # list of all objects
+print output_1
+
+the_map = do_obstacle(board_values, the_map)
+
+do_path(b_object)
+
+
+
+
+key_val = list(output_2.keys())
+
+for i in range(len(key_val)):
+    find_path(key_val[i], output_2[key_val[i]])
+    printMap()
+
+
+
+print output_2
+
+
+
+
+
+
+
+
+
+
+k = cv2.waitKey(0) & 0xFF
+if k == 27:
+    cv2.destroyAllWindows()
