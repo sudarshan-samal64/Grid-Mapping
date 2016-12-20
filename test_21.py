@@ -77,8 +77,11 @@ print b_object
 the_map = do_obstacle(board_values, the_map)
 
 #do_path(b_object, the_map)
+find_path(2, 8, 6, 5)
+#printMap()
+do_path(b_object)
 
-printMap()
+print output_2.keys()
 
 k = cv2.waitKey(0) & 0xFF
 if k == 27:
