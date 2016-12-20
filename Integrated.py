@@ -26,7 +26,7 @@ def first_out(board):          # extract all the obstacles' and objects' positio
 def do_obstacle(board, tmap):
     c = 1
     for block in board:
-        if block == ('black', '4-sided'):
+        if block == ('black', '4-sided', 3136.0):
             x = c % 10
             y = c / 10
             tmap[y][x] = 1
