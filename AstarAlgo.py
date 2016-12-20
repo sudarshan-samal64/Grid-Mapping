@@ -192,7 +192,7 @@ sf.append((0, m / 2 - 1, n - 1, m / 2 + 1))
 sf.append((n - 1, m / 2 + 1, 0, m / 2 - 1))
 '''
 
-def find_path(xA, yA, xB, yB)
+def find_path(xA, yA, xB, yB):
     #(xA, yA, xB, yB) = (0, 0, 0, 0)
 
     print 'Map Size (X,Y): ', n, m

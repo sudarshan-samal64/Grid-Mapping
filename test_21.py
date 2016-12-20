@@ -76,7 +76,7 @@ print b_object
 
 the_map = do_obstacle(board_values, the_map)
 
-do_path(b_object, the_map)
+#do_path(b_object, the_map)
 
 printMap()
 
