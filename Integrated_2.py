@@ -295,18 +295,12 @@ def do_obstacle(board, tmap):
 # takes the b_object as input and
 # updates the required dictionary with keys only (starting positions)
 def do_path(board):
-    fnd = {}
     for block in board:
         if block[0:2] != ('black', '4-sided',):
-            xA = block[3] % 10
-            yA = block[3] / 10
-            output_2[(xA, yA)] = []     # required dictionary, but its only updating the keys
             for block2 in board:
                 if block != block2 and block[0:3] == block2[0:3]:
-                    fnd[(block[3] % 10, block[3] / 10)] = [(block2[3] % 10, block2[3] / 10)]
+                    output_2[(block[3] % 10, block[3] / 10)] = [(block2[3] % 10, block2[3] / 10)]
 
-
-    print fnd
 
 
 def xyz(xA,yA,route1):
