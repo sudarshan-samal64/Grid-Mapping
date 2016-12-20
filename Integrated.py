@@ -40,5 +40,6 @@ def do_path(board):
         if block[0:2] != ('black', '4-sided',):
             xA = block[3] % 10
             yA = block[3] / 10
-            output_2[(xA, yA)] = []
+            output_2[(xA, yA)] = []     # required dictionary, but its only updating the keys
+
 
