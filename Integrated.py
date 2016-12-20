@@ -1,8 +1,12 @@
+import AstarAlgo
+
+
 c=1
 b_object = []
 temp_object = []
 
 output_1 = []                  # first required output
+output_2 = {}
 
 
 def first_out(board):          # extract all the obstacles' and objects' positions
@@ -30,7 +34,19 @@ def do_obstacle(board, tmap):
 
     return tmap
 
+<<<<<<< HEAD
+
+def do_path(board):
+    for block in board:
+        if block[0:2] != ('black', '4-sided',):
+            xA = block[3] % 10
+            yA = block[3] / 10
+            output_2[(xA, yA)] = []
+
+
+=======
 def do_path(board, tmap):
     for block in board :
         if block[0:2] != ('black', '4-sided'):
                
+>>>>>>> 9d840b8dcfd175b15e422fddf79cc8f6b18de6ea
