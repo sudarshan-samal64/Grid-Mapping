@@ -131,6 +131,7 @@ def pathFind(the_map, directions, dx, dy, xStart, yStart, xFinish, yFinish):
                         heappop(pq[pqi])
                     pqi = 1 - pqi
                     heappush(pq[pqi], m0)  # add the better node instead
+
     return ''  # no route found
 
 
@@ -161,24 +162,6 @@ for y in range(m / 8, m * 7 / 8):
     the_map[y][n / 2] = 1
 '''
 
-the_map[1][0] = 1
-the_map[1][1] = 1
-the_map[1][2] = 1
-the_map[2][0] = 1
-the_map[2][2] = 1
-the_map[3][0] = 1
-the_map[4][0] = 1
-the_map[4][5] = 1
-the_map[5][4] = 1
-the_map[6][5] = 1
-the_map[7][5] = 1
-the_map[7][6] = 1
-the_map[7][7] = 1
-the_map[7][8] = 1
-the_map[8][8] = 1
-
-
-
 '''
 # randomly select start and finish locations from a list
 sf = []
@@ -192,6 +175,7 @@ sf.append((0, m / 2 - 1, n - 1, m / 2 + 1))
 sf.append((n - 1, m / 2 + 1, 0, m / 2 - 1))
 '''
 
+
 def find_path(xA, yA, xB, yB):
     #(xA, yA, xB, yB) = (0, 0, 0, 0)
 
@@ -202,8 +186,7 @@ def find_path(xA, yA, xB, yB):
     route = pathFind(the_map, directions, dx, dy, xA, yA, xB, yB)
     print 'Time to generate the route (s): ', time.time() - t
     #print 'Route:'
-    #print route
-
+    print len(route)
 
     # mark the route on the map
     if len(route) > 0:
