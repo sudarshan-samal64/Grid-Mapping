@@ -34,7 +34,6 @@ def do_obstacle(board, tmap):
 
     return tmap
 
-<<<<<<< HEAD
 
 def do_path(board):
     for block in board:
@@ -43,10 +42,3 @@ def do_path(board):
             yA = block[3] / 10
             output_2[(xA, yA)] = []
 
-
-=======
-def do_path(board, tmap):
-    for block in board :
-        if block[0:2] != ('black', '4-sided'):
-               
->>>>>>> 9d840b8dcfd175b15e422fddf79cc8f6b18de6ea
