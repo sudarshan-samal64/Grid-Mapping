@@ -365,7 +365,10 @@ def do_path(board):
         if block[0:2] != ('black', '4-sided',):
             for block2 in board:
                 if block != block2 and block[0:3] == block2[0:3]:
-                    output_2[(block[3] % 10, block[3] / 10)] = [(block2[3] % 10, block2[3] / 10)]
+                    output_2[(block[3] % 10, block[3] / 10 + 1)] = [(block2[3] % 10, block2[3] / 10 + 1)]
+                # else:
+                 #   output_2[(block[3] % 10, block[3] / 10 + 1)] = ['NO MATCH']
+
 
 
 def xyz(xA, yA, route1):
@@ -425,6 +428,10 @@ def main(image_filename):
     key_val = list(output_2.keys())
 
     for i in range(len(key_val)):
+    if output_2[key_val[i]] == ['NO MATCH']:
+        output_2[key_val[i]].append([])
+        output_2[key_val[i]].append(0)
+    else:
         find_path(key_val[i], output_2[key_val[i]])
 
 
