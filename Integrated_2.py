@@ -1,3 +1,15 @@
+'''
+
+    * Team Id : eYRC-LM#2719
+    * Author List : Sudarshan Samal, Saswat Sahoo, Pratik Sahoo
+    * Filename: Integrated_2.py
+    * Theme: Launch a Module
+    * Functions:
+                * updatePriority(), nextdistance(), estimate(), pathfind(), find_path(), printMap()
+                * check_task(), first_out(),do_obstacle(), do_path(), xyz()
+    * Global Variables: c, b_object,output_1,output_2,the_map,row, img_base_1, gray_base_1, board_values, key_val
+
+'''
 import cv2
 from heapq import heappush, heappop  # for priority queue
 import math
