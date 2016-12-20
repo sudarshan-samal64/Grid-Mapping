@@ -28,7 +28,6 @@ the_map = []
 row = [0] * n
 for i in range(m):
     the_map.append(list(row))
-route = []
 
 
 
@@ -217,10 +216,10 @@ def pathFind(the_map, directions, dx, dy, xStart, yStart, xFinish, yFinish):
     return ''  # no route found
 
 #path finding function
-def find_path(xA, yA, xB, yB):
-    global route
+def find_path((xA, yA), temp):
     #(xA, yA, xB, yB) = (0, 0, 0, 0)
-
+    xB = temp[0][0]
+    yB = temp[0][1]
     print 'Map Size (X,Y): ', n, m
     print 'Start: ', xA, yA
     print 'Finish: ', xB, yB
@@ -229,7 +228,11 @@ def find_path(xA, yA, xB, yB):
     print 'Time to generate the route (s): ', time.time() - t
     print 'Route:', route
     print len(route)
-    print xyz(xA, yA, route)
+    route1 = xyz(xA, yA, route)
+
+    output_2[(xA, yA)].append(route1)
+    output_2[(xA, yA)].append(len(route1))
+    
 
     # mark the route on the map
     if len(route) > 0:
@@ -302,7 +305,6 @@ def do_path(board):
                     output_2[(block[3] % 10, block[3] / 10)] = [(block2[3] % 10, block2[3] / 10)]
 
 
-
 def xyz(xA,yA,route1):
     path_temp = []
     xA1 = xA
@@ -335,15 +337,18 @@ the_map = do_obstacle(board_values, the_map)
 
 do_path(b_object)
 
+
+
+
+key_val = list(output_2.keys())
+
+for i in range(len(key_val)):
+    find_path(key_val[i], output_2[key_val[i]])
+    printMap()
+
+
+
 print output_2
-
-find_path(2,8,6,5)
-printMap()
-
-
-
-
-
 
 
 
